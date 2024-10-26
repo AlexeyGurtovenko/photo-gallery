@@ -1,4 +1,5 @@
 export interface Link {
   title: string;
-  path: string;
+  relativePath: string;
+  iconName: string;
 }
