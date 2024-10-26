@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  @for (link of links(); track link.title) {
+    <button mat-button
+            routerLink="{{ link.path }}"
+            routerLinkActive="mat-accent"
+            [routerLinkActiveOptions]="{ exact: true }">
+<!--      TODO: exact true-->
+      {{ link.title }}
+    </button>
+  }
+</mat-toolbar>
