@@ -14,7 +14,7 @@ export class LocalStorageService {
   }
 
   public getData(key: string) {
-    let data = localStorage.getItem(key)|| "";
+    let data = localStorage.getItem(key) || "";
     return this.decrypt(data);
   }
 
