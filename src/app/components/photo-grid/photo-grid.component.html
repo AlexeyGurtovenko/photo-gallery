@@ -1,0 +1,18 @@
+<div class="photo-grid">
+
+  @for (photo of photos(); track photo.id) {
+    <div class="photo-item" [class.favorite]="isFavorite(photo.id)">
+      <img loading="lazy" fill
+          [ngSrc]="photo.download_url"
+           [alt]="'Photo by ' + photo.author"
+           (click)="onPhotoClick(photo)">
+
+      <div class="photo-overlay">
+        <button mat-icon-button (click)="onFavoriteClick(photo)">
+          <mat-icon>{{ isFavorite(photo.id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
+        <span class="author">By {{ photo.author }}</span>
+      </div>
+    </div>
+  }
+</div>
