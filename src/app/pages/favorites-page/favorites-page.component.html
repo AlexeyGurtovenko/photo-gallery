@@ -1,0 +1,17 @@
+<div class="favorites-container">
+  <h2 class="title">Your Favorites</h2>
+
+  @if (favorites.length === 0) {
+    <div class="empty-state">
+      <mat-icon>favorite_border</mat-icon>
+      <p>No favorites yet. Browse photos and click the heart icon to add them here!</p>
+    </div>
+  } @else {
+    <app-photo-grid
+      [photos]="favorites"
+      [showFavorites]="true"
+      (photoClick)="onPhotoClick($event)"
+      (favoriteClick)="onFavoriteClick($event)">
+    </app-photo-grid>
+  }
+</div>
