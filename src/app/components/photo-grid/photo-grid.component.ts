@@ -6,6 +6,7 @@ import { MatIconButton } from "@angular/material/button";
 
 import { Photo }  from "../../models";
 import { FavoritesService } from "../../services";
+import { PhotoComponent } from "../photo/photo.component";
 
 @Component({
   selector: 'app-photo-grid',
@@ -14,7 +15,8 @@ import { FavoritesService } from "../../services";
   imports: [
     MatIcon,
     MatIconButton,
-    NgOptimizedImage
+    NgOptimizedImage,
+    PhotoComponent
   ],
   styleUrl: './photo-grid.component.scss'
 })

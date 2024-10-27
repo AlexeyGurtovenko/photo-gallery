@@ -41,7 +41,11 @@ export class PhotoDetailsPageComponent implements OnInit {
     );
   }
 
-  protected removeFromFavorites(photoId: string): void {
+  public isFavorite(photoId: string): boolean {
+    return this.favoritesService.isFavorite(photoId);
+  }
+
+  public removeFromFavorites(photoId: string): void {
     this.favoritesService.removeFromFavorites(photoId);
   }
 }

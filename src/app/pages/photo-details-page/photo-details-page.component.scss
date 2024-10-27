@@ -1,14 +1,14 @@
 .wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
+  margin: 2rem 0;
 }
 
 .photo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 500px;
-  height: 500px;
+  width: 50%;
+}
+
+button {
+  margin-top: 2rem;
 }

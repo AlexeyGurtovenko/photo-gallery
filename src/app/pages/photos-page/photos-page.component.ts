@@ -1,5 +1,4 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
 import { DOCUMENT } from "@angular/common";
 
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
@@ -26,7 +25,7 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
 
   private pageNumber = 1;
   // TODO: calculate number of items depending on screen size
-  private itemsPerPage = 10;
+  private itemsPerPage = 25;
 
   public photos: Photo[] = [];
   public isLoading = false;
@@ -34,7 +33,6 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
   constructor(
     private photoService: PhotoService,
     private favoriteService: FavoritesService,
-    private router: Router,
     @Inject(DOCUMENT) private readonly document: Document
   ) {
     this.window = this.document.defaultView;

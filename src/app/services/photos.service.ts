@@ -16,7 +16,7 @@ export class PhotoService {
     private readonly http: HttpClient,
   ) {}
 
-  public getPhotos(page: number, limit = 10): Observable<Photo[]> {
+  public getPhotos(page: number, limit = 50): Observable<Photo[]> {
     // real world API simulation delay
     const randomDelay = Math.floor(Math.random() * 100) + 200;
 
