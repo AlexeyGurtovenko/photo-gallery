@@ -1,17 +1,12 @@
 @if (photo$ | async; as photo) {
   <div class="wrapper">
     <div class="photo-container">
-        <app-photo [photo]="photo" [isFavorite]="true"></app-photo>
+      <app-photo [photo]="photo" [isFavorite]="true"></app-photo>
     </div>
 
-    <button
-      mat-raised-button
-      [disabled]="!isFavorite(photo.id)"
-      (click)="removeFromFavorites(photo.id)">
+    <button mat-raised-button (click)="removeFromFavorites(photo.id)">
       <mat-icon>delete</mat-icon>
       Remove from favorites
     </button>
   </div>
 }
-
-

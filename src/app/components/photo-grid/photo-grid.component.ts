@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, input, Output } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
@@ -13,6 +13,7 @@ import { PhotoComponent } from '../photo/photo.component';
   templateUrl: './photo-grid.component.html',
   imports: [MatIcon, MatIconButton, NgOptimizedImage, PhotoComponent],
   styleUrl: './photo-grid.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoGridComponent {
   public photos = input<Photo[]>([]);

@@ -1,8 +1,8 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
 
 import { PhotoComponent } from '../../components';
@@ -15,12 +15,14 @@ import { FavoritesService } from '../../services';
   imports: [PhotoComponent, AsyncPipe, MatButton, MatIcon],
   templateUrl: './photo-details-page.component.html',
   styleUrl: './photo-details-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoDetailsPageComponent implements OnInit {
   protected photo$: Observable<Photo | null | undefined> = of(null);
 
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly favoritesService: FavoritesService,
   ) {}
 
@@ -34,11 +36,8 @@ export class PhotoDetailsPageComponent implements OnInit {
     );
   }
 
-  public isFavorite(photoId: string): boolean {
-    return this.favoritesService.isFavorite(photoId);
-  }
-
   public removeFromFavorites(photoId: string): void {
     this.favoritesService.removeFromFavorites(photoId);
+    this.router.navigate(['/favorites']);
   }
 }

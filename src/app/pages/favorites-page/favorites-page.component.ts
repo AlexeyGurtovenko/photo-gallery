@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { FavoritesService } from '../../services';
   imports: [MatIcon, PhotoGridComponent],
   templateUrl: './favorites-page.component.html',
   styleUrl: './favorites-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FavoritesPageComponent {
   constructor(
