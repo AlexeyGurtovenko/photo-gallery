@@ -1,12 +1,13 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" role="navigation" aria-label="Main Navigation">
   @for (link of links(); track link.title) {
     <button
       mat-button
       routerLink="{{ link.relativePath }}"
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }">
-
-      <mat-icon>
+      [attr.aria-label]="link.title + ' section'"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon aria-hidden="true">
         {{ link.iconName }}
       </mat-icon>
 

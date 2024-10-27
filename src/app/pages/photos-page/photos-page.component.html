@@ -1,7 +1,7 @@
-<app-photo-grid [photos]="photos()" (photoClick)="onPhotoClick($event)"> </app-photo-grid>
+<app-photo-grid aria-label="Photo grid displaying photos" [photos]="photos()" (photoClick)="onPhotoClick($event)"> </app-photo-grid>
 
 @if (isLoading()) {
-  <div class="loader">
-    <mat-spinner diameter="40"></mat-spinner>
+  <div class="loader" role="status" aria-live="polite">
+    <mat-spinner diameter="40" aria-label="Loading photos"></mat-spinner>
   </div>
 }
