@@ -1,23 +1,18 @@
+import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { DOCUMENT } from "@angular/common";
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { filter, fromEvent, map, Subject, takeUntil } from 'rxjs';
 
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
-
-import { filter, fromEvent, map, Subject, takeUntil } from "rxjs";
-
-import { PhotoGridComponent } from "../../components";
-import { Photo } from "../../models";
-import { FavoritesService, PhotoService } from "../../services";
+import { PhotoGridComponent } from '../../components';
+import { Photo } from '../../models';
+import { FavoritesService, PhotoService } from '../../services';
 
 @Component({
   selector: 'app-photos-page',
   standalone: true,
-  imports: [
-    PhotoGridComponent,
-    MatProgressSpinner
-  ],
+  imports: [PhotoGridComponent, MatProgressSpinner],
   templateUrl: './photos-page.component.html',
-  styleUrl: './photos-page.component.scss'
+  styleUrl: './photos-page.component.scss',
 })
 export class PhotosPageComponent implements OnInit, OnDestroy {
   private readonly window: Window | null = null;
@@ -33,7 +28,7 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
   constructor(
     private photoService: PhotoService,
     private favoriteService: FavoritesService,
-    @Inject(DOCUMENT) private readonly document: Document
+    @Inject(DOCUMENT) private readonly document: Document,
   ) {
     this.window = this.document.defaultView;
   }
@@ -60,7 +55,8 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
     if (this.isLoading) return;
 
     this.isLoading = true;
-    this.photoService.getPhotos(this.pageNumber, this.itemsPerPage)
+    this.photoService
+      .getPhotos(this.pageNumber, this.itemsPerPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (newPhotos) => {
@@ -71,7 +67,7 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.error('Error loading photos:', err);
           this.isLoading = false;
-        }
+        },
       });
   }
 
@@ -80,7 +76,7 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
       .pipe(
         map(() => this.getScrollPosition()),
         filter((position) => position >= 0.8 && !this.isLoading),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => this.loadPhotos());
   }

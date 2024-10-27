@@ -1,21 +1,16 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { NgOptimizedImage } from "@angular/common";
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
-import { MatIcon } from "@angular/material/icon";
-import { MatIconButton } from "@angular/material/button";
-
-import { Photo } from "../../models";
+import { Photo } from '../../models';
 
 @Component({
   selector: 'app-photo',
   standalone: true,
-  imports: [
-    NgOptimizedImage,
-    MatIconButton,
-    MatIcon
-  ],
+  imports: [NgOptimizedImage, MatIconButton, MatIcon],
   templateUrl: './photo.component.html',
-  styleUrl: './photo.component.scss'
+  styleUrl: './photo.component.scss',
 })
 export class PhotoComponent {
   public photo = input.required<Photo>();

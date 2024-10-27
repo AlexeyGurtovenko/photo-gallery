@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Photo } from '../models';
-
-import { LocalStorageService } from "./local-storage.service";
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FavoritesService {
   private readonly STORAGE_KEY = 'favorites';
@@ -15,7 +13,7 @@ export class FavoritesService {
 
   constructor(
     private readonly snackBar: MatSnackBar,
-    private readonly localStorage: LocalStorageService
+    private readonly localStorage: LocalStorageService,
   ) {
     this.favorites = new Map(Object.entries(this.loadFavorites()));
   }
@@ -46,7 +44,7 @@ export class FavoritesService {
 
   private saveFavorites(): void {
     const stringifiedData = JSON.stringify(Object.fromEntries(this.favorites));
-    this.localStorage.saveData(this.STORAGE_KEY, stringifiedData)
+    this.localStorage.saveData(this.STORAGE_KEY, stringifiedData);
   }
 
   private loadFavorites(): Record<string, Photo> {

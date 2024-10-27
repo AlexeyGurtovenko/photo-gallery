@@ -1,26 +1,22 @@
 import { Component } from '@angular/core';
-import { Router } from "@angular/router";
+import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
-import { MatIcon } from "@angular/material/icon";
-
-import { FavoritesService } from "../../services";
-import { Photo } from "../../models";
-import { PhotoGridComponent } from "../../components";
+import { PhotoGridComponent } from '../../components';
+import { Photo } from '../../models';
+import { FavoritesService } from '../../services';
 
 @Component({
   selector: 'app-favorites-page',
   standalone: true,
-  imports: [
-    MatIcon,
-    PhotoGridComponent
-  ],
+  imports: [MatIcon, PhotoGridComponent],
   templateUrl: './favorites-page.component.html',
-  styleUrl: './favorites-page.component.scss'
+  styleUrl: './favorites-page.component.scss',
 })
 export class FavoritesPageComponent {
   constructor(
     private readonly favoritesService: FavoritesService,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   public get photos(): Photo[] {
