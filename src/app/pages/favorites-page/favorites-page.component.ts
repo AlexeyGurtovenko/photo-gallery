@@ -23,15 +23,11 @@ export class FavoritesPageComponent {
     private readonly router: Router
   ) {}
 
-  public get favorites(): Photo[] {
+  public get photos(): Photo[] {
     return this.favoritesService.getFavorites();
   }
 
   public onPhotoClick(photo: Photo): void {
     this.router.navigate(['/photos', photo.id]);
-  }
-
-  public onFavoriteClick(photo: Photo): void {
-    this.favoritesService.removeFromFavorites(photo.id);
   }
 }

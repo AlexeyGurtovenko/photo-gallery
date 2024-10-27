@@ -51,10 +51,6 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
   }
 
   public onPhotoClick(photo: Photo): void {
-    this.router.navigate(['/photos', photo.id]);
-  }
-
-  public onFavoriteClick(photo: Photo): void {
     if (this.favoriteService.isFavorite(photo.id)) {
       this.favoriteService.removeFromFavorites(photo.id);
     } else {

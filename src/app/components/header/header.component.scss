@@ -2,10 +2,14 @@ mat-toolbar {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-bottom: 1.5rem;
 
-  // TODO: move 360 to variable
+  // TODO: use variable instead of 360px
   @media screen and (max-width: 360px) {
     flex-direction: column;
+  }
+
+  button.active {
+    background: var(--mat-select-focused-arrow-color);
+    color: var(--mdc-switch-disabled-selected-handle-color);
   }
 }
