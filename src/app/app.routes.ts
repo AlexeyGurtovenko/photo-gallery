@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
 
-import { FavoritesPageComponent, PhotosPageComponent } from "./pages";
+import {
+  FavoritesPageComponent,
+  PhotoDetailsPageComponent,
+  PhotosPageComponent
+} from './pages';
 
 export const routes: Routes = [
   { path: '', component: PhotosPageComponent },
   { path: 'favorites', component: FavoritesPageComponent },
+  { path: 'photos/:id', component: PhotoDetailsPageComponent },
   { path: '**', redirectTo: '' }
 ];

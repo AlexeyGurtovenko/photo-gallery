@@ -1,0 +1,9 @@
+<div class="photo">
+  <img
+    loading="lazy"
+    fill
+    [ngSrc]="photo().download_url"
+    [alt]="'Photo by ' + photo().author">
+
+  <div class="author">By {{ photo().author }}</div>
+</div>

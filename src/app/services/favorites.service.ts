@@ -40,6 +40,10 @@ export class FavoritesService {
     return this.favorites.has(photoId);
   }
 
+  public getById(photoId: string): Photo | undefined {
+    return this.favorites.get(photoId);
+  }
+
   private saveFavorites(): void {
     const stringifiedData = JSON.stringify(Object.fromEntries(this.favorites));
     this.localStorage.saveData(this.STORAGE_KEY, stringifiedData)

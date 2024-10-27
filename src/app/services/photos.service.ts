@@ -23,8 +23,4 @@ export class PhotoService {
     return this.http.get<Photo[]>(`${this.API_URL}?page=${page}&limit=${limit}`)
       .pipe(delay(randomDelay));
   }
-
-  public getPhotoById(id: string): Observable<Photo> {
-    return this.http.get<Photo>(`${this.API_URL}/id/${id}`);
-  }
 }
