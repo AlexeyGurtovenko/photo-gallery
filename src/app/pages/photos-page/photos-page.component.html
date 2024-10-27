@@ -1,0 +1,11 @@
+<app-photo-grid
+  [photos]="photos"
+  (photoClick)="onPhotoClick($event)"
+  (favoriteClick)="onFavoriteClick($event)">
+</app-photo-grid>
+
+@if (isLoading) {
+  <div class="loader">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+}

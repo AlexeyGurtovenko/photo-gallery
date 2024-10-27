@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from "./app.component";
+
+import { PhotosPageComponent } from "./pages";
 
 export const routes: Routes = [
-  // { path: '', component: AppComponent },
-  // { path: '**', redirectTo: '' }
+  { path: '', component: PhotosPageComponent },
+  { path: '**', redirectTo: '' }
 ];
