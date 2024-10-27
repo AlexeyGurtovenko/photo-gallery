@@ -18,7 +18,7 @@ import { FavoritesService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoDetailsPageComponent implements OnInit {
-  protected photo$: Observable<Photo | null | undefined> = of(null);
+  public photo$: Observable<Photo | null | undefined> = of(null);
 
   constructor(
     private readonly route: ActivatedRoute,
