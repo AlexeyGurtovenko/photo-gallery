@@ -1,8 +1,8 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { LocalStorageService } from './local-storage.service';
 import { Photo } from '../models';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',

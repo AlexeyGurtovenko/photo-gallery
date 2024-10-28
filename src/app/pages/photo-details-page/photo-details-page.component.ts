@@ -7,7 +7,7 @@ import { Observable, of, switchMap } from 'rxjs';
 
 import { PhotoComponent } from '../../components';
 import { Photo } from '../../models';
-import { FavoritesService } from '../../services';
+import { FavoritesService, PhotoService } from '../../services';
 
 @Component({
   selector: 'app-photo-details-page',
@@ -24,6 +24,7 @@ export class PhotoDetailsPageComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly favoritesService: FavoritesService,
+    private readonly photosService: PhotoService,
   ) {}
 
   public ngOnInit(): void {
@@ -36,8 +37,8 @@ export class PhotoDetailsPageComponent implements OnInit {
     );
   }
 
-  public removeFromFavorites(photoId: string): void {
-    this.favoritesService.removeFromFavorites(photoId);
+  public removeFromFavorites(photo: Photo): void {
+    this.photosService.toggleFavorite(photo);
     this.router.navigate(['/favorites']);
   }
 }

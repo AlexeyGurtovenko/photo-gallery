@@ -49,7 +49,7 @@ export class PhotoService {
   }
 
   private mapApiResponseToMapEntries(data: PhotoApiResponse[]): Map<string, Photo> {
-    return data.reduce((map, { id, author, download_url }) => {
+    return data.reduce((acc, { id, author, download_url }) => {
       const photo: Photo = {
         id,
         author,
@@ -57,7 +57,7 @@ export class PhotoService {
         isFavorite: this.favoritesService.isFavorite(id),
       };
 
-      return map.set(id, photo);
+      return acc.set(id, photo);
     }, new Map<string, Photo>());
   }
 }

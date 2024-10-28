@@ -62,7 +62,7 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
       .getPhotos(this.pageNumber, this.itemsPerPage)
       .pipe(take(1))
       .subscribe({
-        next: (newPhotos) => {
+        next: () => {
           this.pageNumber++;
           this.isLoading.set(false);
           this.cdr.markForCheck();
