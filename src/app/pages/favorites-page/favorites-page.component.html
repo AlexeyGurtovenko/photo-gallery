@@ -1,13 +1,13 @@
 <div class="favorites-container" aria-labelledby="favorites-title">
   <h2 id="favorites-title" class="title">Your Favorites</h2>
 
-  @if (photos.length === 0) {
+  @if (photos().length === 0) {
     <div class="empty-state" aria-live="polite">
       <mat-icon aria-hidden="true">favorite_border</mat-icon>
       <p>No favorites yet. Browse photos and click them to add here!</p>
     </div>
   } @else {
-    <app-photo-grid aria-label="Photo grid displaying favorite photos" [photos]="photos" (photoClick)="onPhotoClick($event)">
+    <app-photo-grid aria-label="Photo grid displaying favorite photos" [photos]="photos()" (photoClick)="onPhotoClick($event)">
     </app-photo-grid>
   }
 </div>

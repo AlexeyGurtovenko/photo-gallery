@@ -1,12 +1,5 @@
 <div class="photo-grid" role="grid">
   @for (photo of photos(); track photo.id) {
-    <app-photo
-      aria-label="Photo by {{ photo.author }}"
-      role="gridcell"
-      [photo]="photo"
-      [isFavorite]="isFavorite(photo.id)"
-      (click)="onPhotoClick(photo)"
-    >
-    </app-photo>
+    <app-photo role="gridcell" [photo]="photo" (click)="onPhotoClick(photo)"></app-photo>
   }
 </div>

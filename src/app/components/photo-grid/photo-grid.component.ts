@@ -4,7 +4,6 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 import { Photo } from '../../models';
-import { FavoritesService } from '../../services';
 import { PhotoComponent } from '../photo/photo.component';
 
 @Component({
@@ -21,13 +20,7 @@ export class PhotoGridComponent {
   @Output()
   public photoClick = new EventEmitter<Photo>();
 
-  constructor(private readonly favoriteService: FavoritesService) {}
-
   public onPhotoClick(photo: Photo): void {
     this.photoClick.emit(photo);
-  }
-
-  public isFavorite(photoId: string): boolean {
-    return this.favoriteService.isFavorite(photoId);
   }
 }

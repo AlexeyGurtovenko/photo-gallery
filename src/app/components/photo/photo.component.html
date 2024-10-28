@@ -1,11 +1,13 @@
-<div class="photo-item" [class.favorite]="isFavorite()" aria-label="Photo Item">
+<div class="photo-item" [class.favorite]="photo().isFavorite" aria-label="Photo Item">
   <img loading="lazy" fill [ngSrc]="photo().download_url" [alt]="'Photo by ' + photo().author" />
 
   <div class="photo-overlay">
     <span class="author">By {{ photo().author }}</span>
 
-    <button mat-icon-button aria-label="Toggle favorite" [attr.aria-pressed]="isFavorite()">
-      <mat-icon>{{ isFavorite() ? 'favorite' : 'favorite_border' }}</mat-icon>
-    </button>
+    @if (photo().isFavorite) {
+      <button mat-icon-button aria-label="Toggle favorite" aria-pressed="true">
+        <mat-icon>favorite</mat-icon>
+      </button>
+    }
   </div>
 </div>

@@ -1,11 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, Inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { filter, fromEvent, map, Subject, takeUntil } from 'rxjs';
+import { filter, fromEvent, map, Subject, take, takeUntil } from 'rxjs';
 
 import { PhotoGridComponent } from '../../components';
 import { Photo } from '../../models';
-import { FavoritesService, PhotoService } from '../../services';
+import { PhotoService } from '../../services';
 
 @Component({
   selector: 'app-photos-page',
@@ -23,12 +23,14 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
   // TODO: calculate number of items depending on screen size
   private itemsPerPage = 25;
 
-  public photos = signal<Photo[]>([]);
+  public photos = computed(() => {
+    return this.photoService.photos();
+  });
+
   public isLoading = signal<boolean>(false);
 
   constructor(
     private photoService: PhotoService,
-    private favoriteService: FavoritesService,
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly cdr: ChangeDetectorRef,
   ) {
@@ -46,24 +48,21 @@ export class PhotosPageComponent implements OnInit, OnDestroy {
   }
 
   public onPhotoClick(photo: Photo): void {
-    if (this.favoriteService.isFavorite(photo.id)) {
-      this.favoriteService.removeFromFavorites(photo.id);
-    } else {
-      this.favoriteService.addToFavorites(photo);
-    }
+    this.photoService.toggleFavorite(photo);
   }
 
   private loadPhotos(): void {
-    if (this.isLoading()) return;
+    if (this.isLoading()) {
+      return;
+    }
 
     this.isLoading.set(true);
 
     this.photoService
       .getPhotos(this.pageNumber, this.itemsPerPage)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(take(1))
       .subscribe({
         next: (newPhotos) => {
-          this.photos.set([...this.photos(), ...newPhotos]);
           this.pageNumber++;
           this.isLoading.set(false);
           this.cdr.markForCheck();

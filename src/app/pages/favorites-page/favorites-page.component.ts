@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
@@ -20,9 +20,9 @@ export class FavoritesPageComponent {
     private readonly router: Router,
   ) {}
 
-  public get photos(): Photo[] {
-    return this.favoritesService.getFavorites();
-  }
+  public photos = computed(() => {
+    return this.favoritesService.favorites();
+  });
 
   public onPhotoClick(photo: Photo): void {
     this.router.navigate(['/photos', photo.id]);

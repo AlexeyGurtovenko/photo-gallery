@@ -15,5 +15,4 @@ import { Photo } from '../../models';
 })
 export class PhotoComponent {
   public photo = input.required<Photo>();
-  public isFavorite = input.required<boolean>();
 }

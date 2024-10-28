@@ -1,7 +1,7 @@
 @if (photo$ | async; as photo) {
   <div class="wrapper">
     <div class="photo-container">
-      <app-photo [photo]="photo" [isFavorite]="true"></app-photo>
+      <app-photo [photo]="photo"></app-photo>
     </div>
 
     <button mat-raised-button aria-label="Remove photo from favorites" (click)="removeFromFavorites(photo.id)">
