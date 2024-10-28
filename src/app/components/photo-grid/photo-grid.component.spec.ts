@@ -1,58 +1,59 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { PhotoGridComponent } from './photo-grid.component';
-import { PhotoComponent } from '../photo/photo.component';
-import { FavoritesService } from '../../services';
+
 import { Photo } from '../../models';
+import { PhotoComponent } from '../photo/photo.component';
+import { PhotoGridComponent } from './photo-grid.component';
 
 describe('PhotoGridComponent', () => {
   let component: PhotoGridComponent;
   let fixture: ComponentFixture<PhotoGridComponent>;
-  let favoritesServiceSpy: jasmine.SpyObj<FavoritesService>;
 
   const mockPhotos: Photo[] = [
-    { id: '1', download_url: 'https://example.com/photo1.jpg', author: 'John Doe', url: '', height: 44, width: 55 },
-    { id: '2', download_url: 'https://example.com/photo2.jpg', author: 'Jane Doe', url: '', height: 66, width: 77 },
+    { id: '1', author: 'a1', download_url: 'd1', isFavorite: false },
+    { id: '2', author: 'a2', download_url: 'd2', isFavorite: false },
+    { id: '3', author: 'a3', download_url: 'd3', isFavorite: false },
   ];
 
   beforeEach(async () => {
-    const spy = jasmine.createSpyObj('FavoritesService', ['isFavorite']);
-
     await TestBed.configureTestingModule({
       imports: [PhotoGridComponent, PhotoComponent],
-      providers: [{ provide: FavoritesService, useValue: spy }],
     }).compileComponents();
-
-    favoritesServiceSpy = TestBed.inject(FavoritesService) as jasmine.SpyObj<FavoritesService>;
-    favoritesServiceSpy.isFavorite.and.returnValue(true);
 
     fixture = TestBed.createComponent(PhotoGridComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('photos', mockPhotos);
-    fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the correct number of photos', () => {
-    const photoElements = fixture.debugElement.queryAll(By.directive(PhotoComponent));
+  it('should display all photos', () => {
+    fixture.componentRef.setInput('photos', mockPhotos);
+    fixture.detectChanges();
+
+    const photoElements = fixture.debugElement.queryAll(By.css('app-photo'));
     expect(photoElements.length).toBe(mockPhotos.length);
   });
 
-  it('should call isFavorite with correct photo id', () => {
-    mockPhotos.forEach((photo) => {
-      expect(favoritesServiceSpy.isFavorite).toHaveBeenCalledWith(photo.id);
-    });
+  it('should emit the photoClick event when a photo is clicked', () => {
+    fixture.componentRef.setInput('photos', mockPhotos);
+    spyOn(component.photoClick, 'emit');
+    fixture.detectChanges();
+
+    const firstPhotoElement = fixture.debugElement.query(By.css('app-photo'));
+    firstPhotoElement.triggerEventHandler('click', null);
+
+    expect(component.photoClick.emit).toHaveBeenCalledOnceWith(mockPhotos[0]);
   });
 
-  it('should emit photoClick event when a photo is clicked', () => {
-    spyOn(component.photoClick, 'emit');
+  it('should pass the correct photo data to each app-photo component', () => {
+    fixture.componentRef.setInput('photos', mockPhotos);
+    fixture.detectChanges();
 
-    const photoComponent = fixture.debugElement.query(By.directive(PhotoComponent));
-    photoComponent.triggerEventHandler('click', null);
-
-    expect(component.photoClick.emit).toHaveBeenCalledWith(mockPhotos[0]);
+    const photoElements = fixture.debugElement.queryAll(By.directive(PhotoComponent));
+    photoElements.forEach((photoElement, index) => {
+      expect(photoElement.componentInstance.photo()).toBe(mockPhotos[index]);
+    });
   });
 });

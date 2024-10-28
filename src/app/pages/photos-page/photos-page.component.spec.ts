@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PhotosPageComponent } from './photos-page.component';
-import { PhotoGridComponent } from '../../components';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { PhotoService, FavoritesService } from '../../services';
 import { DOCUMENT } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+
+import { PhotoGridComponent } from '../../components';
+import { FavoritesService, PhotoService } from '../../services';
+import { PhotosPageComponent } from './photos-page.component';
 
 describe('PhotosPageComponent', () => {
   let component: PhotosPageComponent;

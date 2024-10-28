@@ -1,50 +1,43 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { PhotoDetailsPageComponent } from './photo-details-page.component';
-import { FavoritesService } from '../../services';
+
 import { PhotoComponent } from '../../components';
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 import { Photo } from '../../models';
+import { FavoritesService, PhotoService } from '../../services';
+import { PhotoDetailsPageComponent } from './photo-details-page.component';
 
 describe('PhotoDetailsPageComponent', () => {
   let component: PhotoDetailsPageComponent;
   let fixture: ComponentFixture<PhotoDetailsPageComponent>;
-  let favoritesServiceSpy: jasmine.SpyObj<FavoritesService>;
-  let routerSpy: jasmine.SpyObj<Router>;
-
-  const mockPhoto: Photo = {
-    id: '1',
-    download_url: 'https://example.com/photo.jpg',
-    author: 'John Doe',
-    url: '',
-    width: 44,
-    height: 55,
-  };
+  let mockFavoritesService: jasmine.SpyObj<FavoritesService>;
+  let mockPhotoService: jasmine.SpyObj<PhotoService>;
+  let mockRouter: jasmine.SpyObj<Router>;
+  let mockActivatedRoute: ActivatedRoute;
 
   beforeEach(async () => {
-    const favoritesServiceMock = jasmine.createSpyObj('FavoritesService', ['getById', 'removeFromFavorites']);
-    const routerMock = jasmine.createSpyObj('Router', ['navigate']);
+    mockFavoritesService = jasmine.createSpyObj('FavoritesService', ['getById']);
+    mockPhotoService = jasmine.createSpyObj('PhotoService', ['toggleFavorite']);
+    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+    mockActivatedRoute = {
+      paramMap: of({
+        get: () => '123',
+      }),
+    } as unknown as ActivatedRoute;
 
     await TestBed.configureTestingModule({
-      imports: [PhotoDetailsPageComponent, PhotoComponent, MatButton, MatIcon],
+      imports: [PhotoComponent, PhotoDetailsPageComponent, MatButtonModule, MatIconModule],
       providers: [
-        { provide: FavoritesService, useValue: favoritesServiceMock },
-        { provide: Router, useValue: routerMock },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            paramMap: of({ get: (key: string) => (key === 'id' ? mockPhoto.id : null) }),
-          },
-        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: Router, useValue: mockRouter },
+        { provide: FavoritesService, useValue: mockFavoritesService },
+        { provide: PhotoService, useValue: mockPhotoService },
       ],
     }).compileComponents();
 
-    favoritesServiceSpy = TestBed.inject(FavoritesService) as jasmine.SpyObj<FavoritesService>;
-    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
-
-    favoritesServiceSpy.getById.and.returnValue(mockPhoto);
     fixture = TestBed.createComponent(PhotoDetailsPageComponent);
     component = fixture.componentInstance;
   });
@@ -53,18 +46,27 @@ describe('PhotoDetailsPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should populate photo$ with the correct photo based on route parameter', (done) => {
-    component.ngOnInit();
-    component.photo$.subscribe((photo) => {
-      expect(photo).toEqual(mockPhoto);
-      expect(favoritesServiceSpy.getById).toHaveBeenCalledWith(mockPhoto.id);
-      done();
-    });
-  });
+  it('should initialize and set photo$ correctly', fakeAsync(() => {
+    const photoMock: Photo = { id: '123', author: 'dasd', download_url: 'asdas', isFavorite: false };
+    mockFavoritesService.getById.and.returnValue(photoMock);
 
-  it('should call removeFromFavorites and navigate to /favorites', () => {
-    component.removeFromFavorites(mockPhoto.id);
-    expect(favoritesServiceSpy.removeFromFavorites).toHaveBeenCalledWith(mockPhoto.id);
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/favorites']);
-  });
+    fixture.detectChanges();
+    tick();
+
+    component.photo$.subscribe((photo) => {
+      expect(photo).toEqual(photoMock);
+    });
+  }));
+
+  it('should render the photo component when photo$ has a value', fakeAsync(() => {
+    const photoMock: Photo = { id: '123', author: 'dasd', download_url: 'asdas', isFavorite: false };
+    mockFavoritesService.getById.and.returnValue(photoMock);
+
+    fixture.detectChanges();
+    tick();
+
+    const photoElement = fixture.debugElement.query(By.css('app-photo'));
+    expect(photoElement).toBeTruthy();
+    expect(photoElement.componentInstance.photo()).toEqual(photoMock);
+  }));
 });
